@@ -1,0 +1,17 @@
+{
+    "macros":[
+        "MBED_BOOT_STACK_SIZE=0x100",
+        "MBED_SLEEP_TRACING_ENABLED_OFF",
+        "DEBUG_MODE"
+    ],
+    "target_overrides": {
+        "*": {
+            "platform.stdio-baud-rate": 115200,
+            "platform.stdio-convert-newlines": true,
+            "platform.stdio-buffered-serial": false,
+            "target.tickless-from-us-ticker": false,
+            "platform.memory-tracing-enabled": false,
+            "target.c_lib": "small"
+        }
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "mbed-configure",
+        "command": "mbed-tools",
+        "args": ["configure",  "-t", "GCC_ARM", "-m", "${input:target}", "-b", "debug"],
+      }
+    ],
+    "inputs": [
+        {
+            "id": "target",
+            "description": "Target to configure for",
+            "options": [
+                "NUCLEO_F401RE"
+            ],
+            "default": "NUCLEO_F401RE",
+            "type": "pickString"
+        },
+    ]
+  }

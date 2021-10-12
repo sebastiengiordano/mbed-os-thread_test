@@ -1,0 +1,25 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "OpenOCD Debugging F4",
+            "request": "launch",
+            "type": "cortex-debug",
+            "cwd": "C:/Outils/msys64",
+            "interface": "swd",
+            "servertype": "openocd",
+            "executable": "${workspaceRoot}/cmake_build/NUCLEO_F401RE/debug/GCC_ARM/mbed-os-example-blinky.elf",
+            "device": "NUCLEO_F401RE",
+            "configFiles": [
+                "C:/Outils/msys64/mingw64/share/openocd/scripts/interface/stlink.cfg",
+                "C:/Outils/msys64/mingw64/share/openocd/scripts/target/stm32f4x.cfg"
+            ],
+            "preRestartCommands": [
+                "load",
+                "monitor reset halt",
+                "b main"
+            ],
+            "showDevDebugOutput": false,
+        }
+    ]
+}

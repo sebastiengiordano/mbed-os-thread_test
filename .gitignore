@@ -1,0 +1,8 @@
+.build
+.mbed
+projectfiles
+*.py*
+.vscode-arm-win.zip
+cmake_build/
+mbed-os/
+resources/

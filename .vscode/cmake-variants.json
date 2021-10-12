@@ -1,0 +1,22 @@
+{
+  "buildType": {
+    "default": "Release",
+      "choices": { 
+        "debug": {
+          "short": "Debug",
+          "long": "Optimized for debug",
+          "buildType": "Debug"
+        },
+        "develop": {
+          "short": "Develop",
+          "long": "Optimize speed and size and keep errors",
+          "buildType": "Develop"
+        },
+        "release": {
+          "short": "Release",   
+          "long": "Optimize speed and size",
+          "buildType": "Release"
+        }    
+      }
+  }
+}

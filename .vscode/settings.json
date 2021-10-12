@@ -1,0 +1,12 @@
+{
+    "cmake.sourceDirectory": "${workspaceFolder}",
+    "cmake.buildDirectory": "${workspaceFolder}/cmake_build/NUCLEO_F401RE/debug/GCC_ARM",
+    "cmake.generator": "Ninja",
+    
+    "clangd.arguments": [
+        "--query-driver", "C:/Outils/Compilateur/GCC/GNU Arm Embedded Toolchain/9 2020-q2-update/bin/arm-none-eabi-g*",
+        "--compile-commands-dir=${workspaceFolder}/cmake_build/NUCLEO_F401RE/debug/GCC_ARM"
+    ],
+    "cmake.configureOnOpen": true,
+
+}
