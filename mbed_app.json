@@ -1,6 +1,6 @@
 {
     "macros":[
-        "MBED_BOOT_STACK_SIZE=0x100",
+        "MBED_BOOT_STACK_SIZE=0x200",
         "MBED_SLEEP_TRACING_ENABLED_OFF",
         "DEBUG_MODE"
     ],
