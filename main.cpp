@@ -95,24 +95,6 @@ void highprio_queue_call(void){
         (unsigned int)chrono::duration_cast<chrono::milliseconds>(current_timer.elapsed_time()).count());
     print_lock.unlock();
 
-    // print_lock.lock();
-    // printf(
-    //     "\t %s \t id: %x \t wait_for: %d ms\t at %u ms.\n",
-    //     ThisThread::get_name(),
-    //     (int)ThisThread::get_id(),
-    //     500,
-    //     (unsigned int)chrono::duration_cast<chrono::milliseconds>(current_timer.elapsed_time()).count());
-    // print_lock.unlock();
-    // wait_us(500 * 1000);
-
-    // print_lock.lock();
-    // printf(
-    //     "\t %s \t id: %x \t wait_for: end\t at %u ms.\n",
-    //     ThisThread::get_name(),
-    //     (int)ThisThread::get_id(),
-    //     (unsigned int)chrono::duration_cast<chrono::milliseconds>(current_timer.elapsed_time()).count());
-    // print_lock.unlock();
-
     loop_for(200);
 
     print_lock.lock();
@@ -179,17 +161,6 @@ void handler(uint16_t* wait_for_timer){
         print_lock.unlock();
 
         queue->call_in(chrono::milliseconds(queue_timer), queue_call);
-
-
-        // print_lock.lock();
-        // printf(
-        //     "\t %s \t id: %x \t wait_for: %d ms\t at %u ms.\n",
-        //     ThisThread::get_name(),
-        //     (int)ThisThread::get_id(),
-        //     *wait_for_timer,
-        //     (unsigned int)chrono::duration_cast<chrono::milliseconds>(current_timer.elapsed_time()).count());
-        // print_lock.unlock();
-        // wait_us(*wait_for_timer * 1000);
     }
 }
 
@@ -252,37 +223,17 @@ int main()
     /*****************/
 
     ThreadPriorityLow->start(callback(handler, &osPriorityLow_sleep_timer));
-    // wait_us(1000);
-
     // ThreadPriorityBelowNormal->start(callback(handler, &osPriorityBelowNormal_sleep_timer));
-    // wait_us(1000);
-
     // ThreadPriorityNormal1->start(callback(handler, &osPriorityNormal1_sleep_timer));
-    // wait_us(1000);
-
     // ThreadPriorityNormal6->start(callback(handler, &osPriorityNormal6_sleep_timer));
-    // wait_us(1000);
-
     ThreadPriorityAboveNormal->start(callback(handler, &osPriorityAboveNormal_sleep_timer));
-    // wait_us(1000);
-
     // ThreadPriorityHigh3->start(callback(handler, &osPriorityHigh3_sleep_timer));
     // ThreadPriorityHigh3->start(callback(highprio_queue_dispatch_forever));
-    // wait_us(1000);
-
     // ThreadPriorityHigh5->start(callback(handler, &osPriorityHigh5_sleep_timer));
-    // wait_us(1000);
-
     // ThreadPriorityRealtime->start(callback(queue_dispatch_forever));
     // ThreadPriorityRealtime->start(callback(handler, &osPriorityRealtime_sleep_timer));
-    // wait_us(1000);
-
     // ThreadPriorityRealtime7->start(callback(&queue, &EventQueue::dispatch_forever));
     ThreadPriorityRealtime7->start(callback(handler, &osPriorityRealtime7_sleep_timer));
-    // wait_us(1000);
-
-
-
 
     ThisThread::sleep_for(5s);
     // Wait for the thread to terminate
