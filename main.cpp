@@ -16,14 +16,14 @@ Mutex print_lock;
 
 // Parameters
 uint16_t osPriorityLow_sleep_timer =          100;
-uint16_t osPriorityBelowNormal_sleep_timer =  200;
-uint16_t osPriorityNormal1_sleep_timer =      300;
-uint16_t osPriorityNormal6_sleep_timer =      400;
-uint16_t osPriorityAboveNormal_sleep_timer = 1500;
-uint16_t osPriorityHigh3_sleep_timer =        600;
-uint16_t osPriorityHigh5_sleep_timer =        700;
-uint16_t osPriorityRealtime_sleep_timer =     800;
-uint16_t osPriorityRealtime7_sleep_timer =   1000;
+// uint16_t osPriorityBelowNormal_sleep_timer =  200;
+// uint16_t osPriorityNormal1_sleep_timer =      300;
+// uint16_t osPriorityNormal6_sleep_timer =      400;
+uint16_t osPriorityAboveNormal_sleep_timer =  500;
+// uint16_t osPriorityHigh3_sleep_timer =        600;
+// uint16_t osPriorityHigh5_sleep_timer =        700;
+// uint16_t osPriorityRealtime_sleep_timer =     800;
+uint16_t osPriorityRealtime7_sleep_timer =    900;
 uint16_t sleep_for_timer =                   1000;
 uint16_t wait_timer =                         500;
 uint16_t queue_timer =                        100;
@@ -71,10 +71,10 @@ void queue_call(void){
         "\t %s \t id: %x \t wait_for: %d ms\t at %u ms.\n",
         ThisThread::get_name(),
         (int)ThisThread::get_id(),
-        500,
+        50,
         (unsigned int)chrono::duration_cast<chrono::milliseconds>(current_timer.elapsed_time()).count());
     print_lock.unlock();
-    wait_us(500 * 1000);
+    wait_us(50 * 1000);
 
     print_lock.lock();
     printf(
@@ -113,7 +113,7 @@ void highprio_queue_call(void){
     //     (unsigned int)chrono::duration_cast<chrono::milliseconds>(current_timer.elapsed_time()).count());
     // print_lock.unlock();
 
-    loop_for(1000);
+    loop_for(200);
 
     print_lock.lock();
     printf(
@@ -126,8 +126,7 @@ void highprio_queue_call(void){
     ThisThread::sleep_for(chrono::milliseconds(sleep_for_timer));
 }
 
-void handler(uint16_t* wait_for_timer)
-{
+void handler(uint16_t* wait_for_timer){
     // Safe to print
     print_lock.lock();
     printf("Starting %s \t id: %x \t at %u ms.\n",
@@ -191,17 +190,6 @@ void handler(uint16_t* wait_for_timer)
         //     (unsigned int)chrono::duration_cast<chrono::milliseconds>(current_timer.elapsed_time()).count());
         // print_lock.unlock();
         // wait_us(*wait_for_timer * 1000);
-
-
-        print_lock.lock();
-        printf(
-            "\t %s \t id: %x \t wait_for: %d ms\t at %u ms.\n",
-            ThisThread::get_name(),
-            (int)ThisThread::get_id(),
-            *wait_for_timer,
-            (unsigned int)chrono::duration_cast<chrono::milliseconds>(current_timer.elapsed_time()).count());
-        print_lock.unlock();
-        wait_us(*wait_for_timer * 1000);
     }
 }
 
@@ -248,14 +236,14 @@ int main()
     /******************/
     /* Initialization */
     /******************/
-    // Thread *ThreadPriorityLow = new Thread(osPriorityLow, 512, NULL, "PriorityLow        ");
+    Thread *ThreadPriorityLow = new Thread(osPriorityLow, 512, NULL, "PriorityLow        ");
     // Thread *ThreadPriorityBelowNormal = new Thread(osPriorityBelowNormal, 512, NULL, "PriorityBelowNormal");
     // Thread *ThreadPriorityNormal1 = new Thread(osPriorityNormal1, 512, NULL, "PriorityNormal1    ");
     // Thread *ThreadPriorityNormal6 = new Thread(osPriorityNormal6, 512, NULL, "PriorityNormal6    ");
     Thread *ThreadPriorityAboveNormal = new Thread(osPriorityAboveNormal, 512, NULL, "PriorityAboveNormal");
-    Thread *ThreadPriorityHigh3 = new Thread(osPriorityHigh3, 512, NULL, "PriorityHigh3      ");
+    // Thread *ThreadPriorityHigh3 = new Thread(osPriorityHigh3, 512, NULL, "PriorityHigh3      ");
     // Thread *ThreadPriorityHigh5 = new Thread(osPriorityHigh5, 512, NULL, "PriorityHigh5      ");
-    Thread *ThreadPriorityRealtime = new Thread(osPriorityRealtime, 512, NULL, "PriorityRealtime   ");
+    // Thread *ThreadPriorityRealtime = new Thread(osPriorityRealtime, 512, NULL, "PriorityRealtime   ");
     Thread *ThreadPriorityRealtime7 = new Thread(osPriorityRealtime7, 512, NULL, "PriorityRealtime7  ");
 
 
@@ -263,7 +251,7 @@ int main()
     /* Threads start */
     /*****************/
 
-    // ThreadPriorityLow->start(callback(handler, &osPriorityLow_sleep_timer));
+    ThreadPriorityLow->start(callback(handler, &osPriorityLow_sleep_timer));
     // wait_us(1000);
 
     // ThreadPriorityBelowNormal->start(callback(handler, &osPriorityBelowNormal_sleep_timer));
@@ -276,18 +264,18 @@ int main()
     // wait_us(1000);
 
     ThreadPriorityAboveNormal->start(callback(handler, &osPriorityAboveNormal_sleep_timer));
-    wait_us(1000);
+    // wait_us(1000);
 
     // ThreadPriorityHigh3->start(callback(handler, &osPriorityHigh3_sleep_timer));
-    ThreadPriorityHigh3->start(callback(highprio_queue_dispatch_forever));
-    wait_us(1000);
+    // ThreadPriorityHigh3->start(callback(highprio_queue_dispatch_forever));
+    // wait_us(1000);
 
     // ThreadPriorityHigh5->start(callback(handler, &osPriorityHigh5_sleep_timer));
     // wait_us(1000);
 
-    ThreadPriorityRealtime->start(callback(queue_dispatch_forever));
+    // ThreadPriorityRealtime->start(callback(queue_dispatch_forever));
     // ThreadPriorityRealtime->start(callback(handler, &osPriorityRealtime_sleep_timer));
-    wait_us(1000);
+    // wait_us(1000);
 
     // ThreadPriorityRealtime7->start(callback(&queue, &EventQueue::dispatch_forever));
     ThreadPriorityRealtime7->start(callback(handler, &osPriorityRealtime7_sleep_timer));
