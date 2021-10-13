@@ -24,7 +24,7 @@ uint16_t osPriorityHigh3_sleep_timer =        600;
 uint16_t osPriorityHigh5_sleep_timer =        700;
 uint16_t osPriorityRealtime_sleep_timer =     800;
 uint16_t osPriorityRealtime7_sleep_timer =   1000;
-uint16_t sleep_for_timer =                    500;
+uint16_t sleep_for_timer =                   1000;
 uint16_t wait_timer =                         500;
 uint16_t queue_timer =                        100;
 
@@ -114,6 +114,16 @@ void highprio_queue_call(void){
     // print_lock.unlock();
 
     loop_for(1000);
+
+    print_lock.lock();
+    printf(
+    "\t %s \t id: %x \t sleep_for: %d ms\t at %u ms.\n",
+        ThisThread::get_name(),
+        (int)ThisThread::get_id(),
+        sleep_for_timer,
+        (unsigned int)chrono::duration_cast<chrono::milliseconds>(current_timer.elapsed_time()).count());
+    print_lock.unlock();
+    ThisThread::sleep_for(chrono::milliseconds(sleep_for_timer));
 }
 
 void handler(uint16_t* wait_for_timer)
